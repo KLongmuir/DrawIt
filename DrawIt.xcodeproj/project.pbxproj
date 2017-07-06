@@ -193,6 +193,7 @@
 				TargetAttributes = {
 					950B34601F0EBA1D007CCB04 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = DQ6R2EZC43;
 						ProvisioningStyle = Automatic;
 					};
 					950B34741F0EBA1D007CCB04 = {
@@ -414,6 +415,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = DQ6R2EZC43;
 				INFOPLIST_FILE = DrawIt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Longmuir.DrawIt;
@@ -426,6 +428,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = DQ6R2EZC43;
 				INFOPLIST_FILE = DrawIt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Longmuir.DrawIt;
