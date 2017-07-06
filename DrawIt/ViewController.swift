@@ -118,7 +118,7 @@ class ViewController: UIViewController {
         let randomCoord: Int = Int(arc4random_uniform(175))
         
         let myColor = UIColor(red: randomIndex1/255.0, green: randomIndex2/255.0, blue: randomIndex3/255.0, alpha: 1)
-        addBox(location: CGRect(x: randomCoord, y: randomCoord, width: 30, height: 30))
+//        addBox(location: CGRect(x: randomCoord, y: randomCoord, width: 30, height: 30))
 //        createAnimatorStuff()
         drawLine(color: myColor)
     }
