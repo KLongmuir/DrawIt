@@ -11,6 +11,21 @@ import CoreGraphics
 
 class ViewController: UIViewController {
     
+    var boxes : Array<UIView> = []
+    
+    var animator:UIDynamicAnimator? = nil;
+    let gravity = UIGravityBehavior()
+    
+//    func createAnimatorStuff() {
+//        animator = UIDynamicAnimator(referenceView:self.view);
+//        animator?.addBehavior(collider)
+//        
+//        gravity.addItem(boxes);
+//        gravity.gravityDirection = CGVectorMake(0, 0.8)
+//        animator?.addBehavior(gravity);
+//        
+//    }
+    
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             for view in self.view.subviews {
@@ -30,8 +45,21 @@ class ViewController: UIViewController {
         }
     }
     
+    func addBox(location: CGRect) {
+        let randomIndex1: CGFloat = CGFloat(arc4random_uniform(255))
+        let randomIndex2: CGFloat = CGFloat(arc4random_uniform(255))
+        let randomIndex3: CGFloat = CGFloat(arc4random_uniform(255))
+        
+        let myColor = UIColor(red: randomIndex1/255.0, green: randomIndex2/255.0, blue: randomIndex3/255.0, alpha: 1)
+
+        let newBox = UIView(frame: location)
+        newBox.backgroundColor = myColor
+        
+        view.insertSubview(newBox, at: 0)
+        boxes.append(newBox)
+    }
+    
     func drawLine(color: UIColor){
-        // testing the gitpush
         let randomIndex1: CGFloat = CGFloat(arc4random_uniform(255))
         let randomIndex2: CGFloat = CGFloat(arc4random_uniform(255))
         let randomIndex3: CGFloat = CGFloat(arc4random_uniform(255))
@@ -87,9 +115,11 @@ class ViewController: UIViewController {
         let randomIndex1: CGFloat = CGFloat(arc4random_uniform(255))
         let randomIndex2: CGFloat = CGFloat(arc4random_uniform(255))
         let randomIndex3: CGFloat = CGFloat(arc4random_uniform(255))
+        let randomCoord: Int = Int(arc4random_uniform(175))
         
         let myColor = UIColor(red: randomIndex1/255.0, green: randomIndex2/255.0, blue: randomIndex3/255.0, alpha: 1)
-        
+        addBox(location: CGRect(x: randomCoord, y: randomCoord, width: 30, height: 30))
+//        createAnimatorStuff()
         drawLine(color: myColor)
     }
 }
