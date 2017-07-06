@@ -1,4 +1,4 @@
-# DrawIt
+# Draw It
 Messing around with Swift
 
 ---
