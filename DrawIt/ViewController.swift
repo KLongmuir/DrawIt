@@ -30,6 +30,16 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
+        self.view.backgroundColor = UIColor.purple
+    }
+    
+    
+    @IBAction func swipeLeft(_ sender: UISwipeGestureRecognizer) {
+        self.performSegue(withIdentifier: "toHey", sender: nil)
+    }
+    
+    
     func createAnimatorStuff(box: UIView) {
         usleep(2000)
         animator = UIDynamicAnimator(referenceView:self.view);
@@ -42,6 +52,10 @@ class ViewController: UIViewController {
         gravity.gravityDirection = CGVector(dx: 0, dy: 1.0)
         animator?.addBehavior(gravity);
         
+    }
+    
+    @IBAction func goob(_ sender: Any) {
+        self.performSegue(withIdentifier: "toHey", sender: nil)
     }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
@@ -77,7 +91,7 @@ class ViewController: UIViewController {
         let randomIndex1: CGFloat = CGFloat(arc4random_uniform(255))
         let randomIndex2: CGFloat = CGFloat(arc4random_uniform(255))
         let randomIndex3: CGFloat = CGFloat(arc4random_uniform(255))
-        let myColor = UIColor(red: randomIndex1/255.0, green: randomIndex2/255.0, blue: randomIndex3/255.0, alpha: 0.5)
+        let myColor = UIColor(red: randomIndex1/255.0, green: randomIndex2/255.0, blue: randomIndex3/255.0, alpha: 1.0)
         
         let newBox = UIView(frame: location)
         newBox.backgroundColor = myColor
