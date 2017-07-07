@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  FretQuiz
+//  DrawIt
 //
 //  Created by Longmuir, Kevin on 7/5/17.
 //  Copyright © 2017 Longmuir, Kevin. All rights reserved.
@@ -8,23 +8,41 @@
 
 import UIKit
 import CoreGraphics
+import SpriteKit
 
 class ViewController: UIViewController {
     
     var boxes : Array<UIView> = []
-    
-    var animator:UIDynamicAnimator? = nil;
+    var box : UIView?
+    var animator:UIDynamicAnimator? = nil
     let gravity = UIGravityBehavior()
+    let collider = UICollisionBehavior()
     
-//    func createAnimatorStuff() {
-//        animator = UIDynamicAnimator(referenceView:self.view);
-//        animator?.addBehavior(collider)
-//        
-//        gravity.addItem(boxes);
-//        gravity.gravityDirection = CGVectorMake(0, 0.8)
-//        animator?.addBehavior(gravity);
-//        
-//    }
+    @IBOutlet weak var shakeLabel: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func createAnimatorStuff(box: UIView) {
+        usleep(2000)
+        animator = UIDynamicAnimator(referenceView:self.view);
+        
+        collider.addItem(box)
+        collider.translatesReferenceBoundsIntoBoundary = true
+        animator?.addBehavior(collider)
+
+        gravity.addItem(box);
+        gravity.gravityDirection = CGVector(dx: 0, dy: 1.0)
+        animator?.addBehavior(gravity);
+        
+    }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
@@ -33,8 +51,7 @@ class ViewController: UIViewController {
                 }
                 else if(type(of: view) == UILayoutGuide.self){
                 }
-                else if(type(of: view) == UILabel.self)
-                {
+                else if(type(of: view) == UILabel.self){
                     
                 }
                 else {
@@ -45,7 +62,33 @@ class ViewController: UIViewController {
         }
     }
     
+    func collisionCheck(testRect: CGRect) -> Bool {
+        for box : UIView in boxes {
+            let viewRect = box.frame;
+            if(testRect.intersects(viewRect)) {
+                return false
+            }
+        }
+        return true
+    }
+    
+    
     func addBox(location: CGRect) {
+        let randomIndex1: CGFloat = CGFloat(arc4random_uniform(255))
+        let randomIndex2: CGFloat = CGFloat(arc4random_uniform(255))
+        let randomIndex3: CGFloat = CGFloat(arc4random_uniform(255))
+        let myColor = UIColor(red: randomIndex1/255.0, green: randomIndex2/255.0, blue: randomIndex3/255.0, alpha: 0.5)
+        
+        let newBox = UIView(frame: location)
+        newBox.backgroundColor = myColor
+        boxes.append(newBox)
+        
+        view.insertSubview(newBox, at: 0)
+        createAnimatorStuff(box: newBox)
+    }
+    
+    
+    func addBox2(location: CGRect) {
         let randomIndex1: CGFloat = CGFloat(arc4random_uniform(255))
         let randomIndex2: CGFloat = CGFloat(arc4random_uniform(255))
         let randomIndex3: CGFloat = CGFloat(arc4random_uniform(255))
@@ -59,68 +102,18 @@ class ViewController: UIViewController {
         boxes.append(newBox)
     }
     
-    func drawLine(color: UIColor){
-        let randomIndex1: CGFloat = CGFloat(arc4random_uniform(255))
-        let randomIndex2: CGFloat = CGFloat(arc4random_uniform(255))
-        let randomIndex3: CGFloat = CGFloat(arc4random_uniform(255))
-        
-        let randomCoord: CGPoint = CGPoint(x:Int(arc4random_uniform(175)),y:Int(arc4random_uniform(467)))
-        
-        let myColor = UIColor(red: randomIndex1/255.0, green: randomIndex2/255.0, blue: randomIndex3/255.0, alpha: 1)
-        let line = UIView(frame: CGRect(x: randomCoord.x, y: randomCoord.y, width: 200, height: 10))
-        let line2 = UIView(frame: CGRect(x: randomCoord.x, y: randomCoord.y, width: 10, height: 200))
-        let line3 = UIView(frame: CGRect(x: randomCoord.x+200, y: randomCoord.y, width: 10, height: 200))
-        let line4 = UIView(frame: CGRect(x: randomCoord.x, y: randomCoord.y+200, width: 210, height: 10))
-        line.backgroundColor = myColor
-        line2.backgroundColor = myColor
-        line3.backgroundColor = myColor
-        line4.backgroundColor = myColor
-        self.view.addSubview(line)
-        self.view.addSubview(line2)
-        self.view.addSubview(line3)
-        self.view.addSubview(line4)
-    }
-    
-    func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view:UIView) {
-        
-        //design the path
-        let path = UIBezierPath()
-        path.move(to: start)
-        path.addLine(to: end)
-        
-        //design path in layer
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = lineColor.cgColor
-        shapeLayer.lineWidth = 7.0
-        
-        view.layer.addSublayer(shapeLayer)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func sayHello(){
-        print("Hello")
-    }
-	
     
     @IBAction func drawIt(_ sender: Any) {
-        let randomIndex1: CGFloat = CGFloat(arc4random_uniform(255))
-        let randomIndex2: CGFloat = CGFloat(arc4random_uniform(255))
-        let randomIndex3: CGFloat = CGFloat(arc4random_uniform(255))
-        let randomCoord: Int = Int(arc4random_uniform(175))
+        var randomCoord: Int = Int(arc4random_uniform(300))
+        var placement = CGRect(x: randomCoord, y: 50, width: 50, height: 50)
+
+        repeat {
+            randomCoord = Int(arc4random_uniform(300))
+            placement = CGRect(x: randomCoord, y: 50, width: 50, height: 50)
+        } while(!collisionCheck(testRect: placement))
         
-        let myColor = UIColor(red: randomIndex1/255.0, green: randomIndex2/255.0, blue: randomIndex3/255.0, alpha: 1)
-//        addBox(location: CGRect(x: randomCoord, y: randomCoord, width: 30, height: 30))
-//        createAnimatorStuff()
-        drawLine(color: myColor)
+        addBox(location: CGRect(x: randomCoord, y: 50, width: 50, height: 50))
+        
     }
 }
 
