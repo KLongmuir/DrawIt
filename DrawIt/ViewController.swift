@@ -12,9 +12,9 @@ import SpriteKit
 
 class ViewController: UIViewController {
     
-    var boxes : Array<UIView> = []
-    var box : UIView?
-    var animator:UIDynamicAnimator? = nil
+    var boxes: Array<UIView> = []
+    var box: UIView?
+    var animator: UIDynamicAnimator? = nil
     let gravity = UIGravityBehavior()
     let collider = UICollisionBehavior()
     
@@ -117,7 +117,7 @@ class ViewController: UIViewController {
     }
     
     
-    @IBAction func drawIt(_ sender: Any) {
+    @IBAction func dropIt(_ sender: Any) {
         var randomCoord: Int = Int(arc4random_uniform(300))
         var placement = CGRect(x: randomCoord, y: 50, width: 50, height: 50)
 
@@ -126,8 +126,11 @@ class ViewController: UIViewController {
             placement = CGRect(x: randomCoord, y: 50, width: 50, height: 50)
         } while(!collisionCheck(testRect: placement))
         
-        addBox(location: CGRect(x: randomCoord, y: 50, width: 50, height: 50))
+//      addBox2(location: CGRect(x: 200, y: 50, width: 50, height: 50))
+        
+        addBox(location: placement)
         
     }
+
 }
 
